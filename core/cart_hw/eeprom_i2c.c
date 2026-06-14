@@ -888,3 +888,21 @@ static void mapper_i2c_jcart_init(void)
   eeprom_i2c.sda_in_bit  = 0;
   eeprom_i2c.sda_out_bit = 7;
 }
+
+int eeprom_i2c_context_save(uint8 *state)
+{
+  int bufferptr = 0;
+
+  save_param(&eeprom_i2c, sizeof(eeprom_i2c));
+
+  return bufferptr;
+}
+
+int eeprom_i2c_context_load(uint8 *state)
+{
+  int bufferptr = 0;
+
+  load_param(&eeprom_i2c, sizeof(eeprom_i2c));
+
+  return bufferptr;
+}

@@ -1071,6 +1071,13 @@ int md_cart_context_save(uint8 *state)
     bufferptr += yx5200_context_save(&state[bufferptr]);
   }
 
+  /* I2C EEPROM hardware (for games like Wonder Boy in Monster World, NBA Jam, etc.) */
+  /* sram.custom is generally > 0 when a custom EEPROM mapper is initialized */
+  if (sram.on && sram.custom) 
+  {
+    bufferptr += eeprom_i2c_context_save(&state[bufferptr]);
+  }
+
   return bufferptr;
 }
 
@@ -1143,6 +1150,12 @@ int md_cart_context_load(uint8 *state)
   if (cart.special & HW_YX5200)
   {
     bufferptr += yx5200_context_load(&state[bufferptr]);
+  }
+
+  /* I2C EEPROM hardware */
+  if (sram.on && sram.custom) 
+  {
+    bufferptr += eeprom_i2c_context_load(&state[bufferptr]);
   }
 
   return bufferptr;
